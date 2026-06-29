@@ -1,10 +1,18 @@
-package br.edu.ufape.agendamentoLapa.model;
+package br.edu.ufape.agendamentolapa.model;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "salas")
 
 public class Sala {
+	private Long id;
 	private String nomeSala;
 	private int capacidade;
-	private String tipo;
-	
+	private Tipo tipo;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	
 	public String getNomeSala() {
 		return nomeSala;
@@ -18,11 +26,17 @@ public class Sala {
 	public void setCapacidade(int capacidade) {
 		this.capacidade = capacidade;
 	}
-	public String getTipo() {
+	public Tipo getTipo() {
 		return tipo;
 	}
-	public void setTipo(String tipo) {
+	public void setTipo(Tipo tipo) {
 		this.tipo = tipo;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 	public enum Tipo {
 		REUNIAO,
@@ -30,4 +44,9 @@ public class Sala {
 		AUDITORIO,
 		MUSEU;
 	}
+	
+	public Sala() {
+	}
+	
+	
 }
