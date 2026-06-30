@@ -1,19 +1,29 @@
 package br.edu.ufape.agendamentolapa.model;
 
 import java.time.LocalTime;
-
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 
-	public class Agendamento {
-		private LocalDate data;
-		private LocalTime horarioInicial;
-		private LocalTime horarioFinal;
-		private String finalidade;
-		private StatusAgendamento status;
-		
-
+@Entity
+@Table(name = "agendamentos")
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Agendamento {
+ 	private LocalDate data;
+	private LocalTime horarioInicial;
+	private LocalTime horarioFinal;
+	private String finalidade;
+	private StatusAgendamento status;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	public Long getId() {
+		return id;
+	}
+	public void setId (Long id) {
+		this.id = id;
+	}
+	
 	public LocalDate getData() {
 		return data;
 	}

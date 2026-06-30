@@ -11,9 +11,6 @@ public class Sala {
 	private int capacidade;
 	private Tipo tipo;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	
 	public String getNomeSala() {
 		return nomeSala;
 	}
@@ -32,7 +29,10 @@ public class Sala {
 	public void setTipo(Tipo tipo) {
 		this.tipo = tipo;
 	}
-	public Long getId() {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+		public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
