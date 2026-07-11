@@ -1,18 +1,27 @@
 package br.edu.ufape.agendamentolapa.model;
 
 import java.time.LocalTime;
-import jakarta.persistence.*;
 import java.time.LocalDate;
+import jakarta.persistence.*;
+
 
 @Entity
 @Table(name = "agendamentos")
-@Inheritance(strategy = InheritanceType.JOINED)
 public class Agendamento {
- 	private LocalDate data;
 	private LocalTime horarioInicial;
 	private LocalTime horarioFinal;
+	private LocalDate dataInicio;
+	private LocalDate dataFim;
 	private String finalidade;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
 	private StatusAgendamento status;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private Frequencia frequencia;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -22,14 +31,6 @@ public class Agendamento {
 	}
 	public void setId (Long id) {
 		this.id = id;
-	}
-	
-	public LocalDate getData() {
-		return data;
-	}
-
-	public void setData(LocalDate data) {
-		this.data = data;
 	}
 
 	public LocalTime getHorarioInicial() {
@@ -64,13 +65,44 @@ public class Agendamento {
 	    this.status = status;
 	}
 
+	public LocalDate getDataInicio() {
+		return dataInicio;
+	}
+	public void setDataInicio(LocalDate dataInicio) {
+		this.dataInicio = dataInicio;
+	}
+
+	public LocalDate getDataFim() {
+		return dataFim;
+	}
+	public void setDataFim(LocalDate dataFim) {
+		this.dataFim = dataFim;
+	}
+
+	public Frequencia getFrequencia() {
+		return frequencia;
+	}
+	public void setFrequencia(Frequencia frequencia) {
+		this.frequencia = frequencia;
+	}
+
 	public enum StatusAgendamento {
 	    SOLICITADO,
 	    APROVADO,
 	    RECUSADO,
 	    CANCELADO,
-	    CONCLUIDO
+	    CONCLUIDO;
 	}
+	
+	public enum Frequencia {
+		UNICO,
+		SEMANAL,
+		QUINZENAL,
+		MENSAL,
+		SEMESTRAL;
+	}
+	
+	
 // Relacionamento agendamento-pessoa
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "solicitante_id", nullable = false)
@@ -87,4 +119,34 @@ public class Agendamento {
 	@ManyToOne
 	@JoinColumn(name = "aprovador_id")
 	private Servidor aprovador;
+
+
+public Pessoa getSolicitante() {
+    return solicitante;
+}
+
+public void setSolicitante(Pessoa solicitante) {
+    this.solicitante = solicitante;
+}
+
+public Sala getSala() {
+    return sala;
+}
+
+public void setSala(Sala sala) {
+    this.sala = sala;
+}
+
+public Servidor getAprovador() {
+    return aprovador;
+}
+
+public void setAprovador(Servidor aprovador) {
+    this.aprovador = aprovador;
+}
+
+// Construtor
+public Agendamento() {
+}
+
 }

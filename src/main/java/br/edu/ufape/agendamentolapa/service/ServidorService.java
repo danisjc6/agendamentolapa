@@ -1,0 +1,26 @@
+package br.edu.ufape.agendamentolapa.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import br.edu.ufape.agendamentolapa.model.Servidor;
+import br.edu.ufape.agendamentolapa.repository.ServidorRepository;
+
+@Service
+public class ServidorService {
+
+    private final ServidorRepository repository;
+
+    public ServidorService(ServidorRepository repository) {
+        this.repository = repository;
+    }
+
+    public Servidor salvar(Servidor servidor) {
+        return repository.save(servidor);
+    }
+
+    public List<Servidor> listar() {
+        return repository.findAll();
+    }
+}

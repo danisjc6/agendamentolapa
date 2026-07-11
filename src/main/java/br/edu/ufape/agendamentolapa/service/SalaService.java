@@ -1,17 +1,18 @@
 package br.edu.ufape.agendamentolapa.service;
 
 import java.util.List;
+
 import org.springframework.stereotype.Service;
+
 import br.edu.ufape.agendamentolapa.model.Sala;
 import br.edu.ufape.agendamentolapa.repository.SalaRepository;
-
 
 @Service
 public class SalaService {
 
     private final SalaRepository repository;
 
-    SalaService(SalaRepository repository) {
+    public SalaService(SalaRepository repository) {
         this.repository = repository;
     }
 

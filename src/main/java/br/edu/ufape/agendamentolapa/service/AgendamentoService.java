@@ -1,0 +1,38 @@
+package br.edu.ufape.agendamentolapa.service;
+
+import java.util.List;
+import java.util.Optional;
+import org.springframework.stereotype.Service;
+import br.edu.ufape.agendamentolapa.model.Agendamento;
+import br.edu.ufape.agendamentolapa.repository.AgendamentoRepository;
+
+@Service
+public class AgendamentoService {
+	
+	private final AgendamentoRepository repository;
+
+	public AgendamentoService(AgendamentoRepository repository) {
+		this.repository = repository;
+	}
+
+	// Salvar ou atualizar
+	public Agendamento salvar(Agendamento agendamento) {
+		return repository.save(agendamento);
+	}
+
+	 // Listar todos
+	 public List<Agendamento> listar() {
+	    return repository.findAll();
+	 }
+
+	  // Buscar por ID
+	  public Optional<Agendamento> buscarPorId(Long id) {
+		  return repository.findById(id);
+	  }
+
+	  // Excluir
+	  public void excluir(Long id) {
+	      repository.deleteById(id);
+	  }
+}
+
