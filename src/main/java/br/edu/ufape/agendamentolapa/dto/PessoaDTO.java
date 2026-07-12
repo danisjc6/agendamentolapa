@@ -5,27 +5,30 @@ import jakarta.validation.constraints.NotBlank;
 
 public class PessoaDTO {
 
-    @NotBlank(message = "O nome é obrigatório.")
+    private Long id;
+
+    @NotBlank
     private String nome;
 
-    @NotBlank(message = "O e-mail é obrigatório.")
-    @Email(message = "E-mail inválido.")
+    @Email
+    @NotBlank
     private String email;
 
-    @NotBlank(message = "O CPF é obrigatório.")
+    @NotBlank
     private String cpf;
 
-    @NotBlank(message = "O telefone é obrigatório.")
+    @NotBlank
     private String telefone;
 
     public PessoaDTO() {
     }
 
-    public PessoaDTO(String nome, String email, String cpf, String telefone) {
-        this.nome = nome;
-        this.email = email;
-        this.cpf = cpf;
-        this.telefone = telefone;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {

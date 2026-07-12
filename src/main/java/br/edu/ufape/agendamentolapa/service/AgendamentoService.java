@@ -1,7 +1,6 @@
 package br.edu.ufape.agendamentolapa.service;
 
 import java.util.List;
-import java.util.Optional;
 import org.springframework.stereotype.Service;
 import br.edu.ufape.agendamentolapa.model.Agendamento;
 import br.edu.ufape.agendamentolapa.repository.AgendamentoRepository;

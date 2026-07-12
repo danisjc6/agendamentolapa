@@ -22,7 +22,7 @@ public class ServidorDTO extends PessoaDTO {
                        String siape,
                        Categoria categoria) {
 
-        super(nome, email, cpf, telefone);
+        super();
 
         this.siape = siape;
         this.categoria = categoria;

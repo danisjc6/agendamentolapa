@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import br.edu.ufape.agendamentolapa.model.Agendamento;
 import br.edu.ufape.agendamentolapa.model.Estudante;
 import br.edu.ufape.agendamentolapa.repository.EstudanteRepository;
 
