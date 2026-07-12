@@ -26,13 +26,15 @@ public class AgendamentoService {
 	 }
 
 	  // Buscar por ID
-	  public Optional<Agendamento> buscarPorId(Long id) {
-		  return repository.findById(id);
-	  }
+	 public Agendamento buscarPorId(Long id) {
+		    return repository.findById(id)
+		            .orElseThrow(() ->
+		                    new RuntimeException("Agendamento não encontrado."));
+	 }
 
 	  // Excluir
-	  public void excluir(Long id) {
-	      repository.deleteById(id);
-	  }
+	 public void excluir(Long id) {
+	     repository.deleteById(id);
+	 }
 }
 

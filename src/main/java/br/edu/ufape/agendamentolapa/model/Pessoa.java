@@ -1,8 +1,14 @@
 package br.edu.ufape.agendamentolapa.model;
 
+import java.util.List;
+import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "pessoas")
@@ -14,6 +20,8 @@ public abstract class Pessoa {
 	private Long id;
 	
 	@NotBlank(message = "O nome é obrigatório.")
+	@Size(min = 3, max = 120)
+	@Column(nullable = false)
 	private String nome;
 	
 	@NotBlank(message = "O e-mail é obrigatório.")
@@ -23,12 +31,16 @@ public abstract class Pessoa {
 	
 	@NotBlank(message = "O CPF é obrigatório.")
 	@Column(unique = true, nullable = false)
+	@Size(min = 11, max = 14)
 	private String cpf;
 	
 	@NotBlank(message = "O telefone é obrigatório.")
+	@Size(min = 10, max = 15)
 	private String telefone;
 	
-	
+	@JsonIgnore
+	@OneToMany(mappedBy = "solicitante")
+	private List<Agendamento> agendamentos;
 	
 	public Long getId() {
 	    return id;
@@ -72,5 +84,27 @@ public abstract class Pessoa {
 	    this.email = email;
 	    this.cpf = cpf;
 	    this.telefone = telefone;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+	    if (this == o) return true;
+	    if (!(o instanceof Pessoa)) return false;
+	    Pessoa pessoa = (Pessoa) o;
+	    return Objects.equals(id, pessoa.id);
+	}
+
+	@Override
+	public int hashCode() {
+	    return Objects.hash(id);
+	}
+	
+	@Override
+	public String toString() {
+	    return "Pessoa{" +
+	            "id=" + id +
+	            ", nome='" + nome + '\'' +
+	            ", email='" + email + '\'' +
+	            '}';
 	}
 }

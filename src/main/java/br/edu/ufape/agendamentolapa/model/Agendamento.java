@@ -1,17 +1,30 @@
 package br.edu.ufape.agendamentolapa.model;
 
 import java.time.LocalTime;
+import java.util.Objects;
+
 import java.time.LocalDate;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 
 @Entity
 @Table(name = "agendamentos")
 public class Agendamento {
+	@Column(nullable = false)
+	@NotNull(message = "O horário inicial é obrigatório.")
 	private LocalTime horarioInicial;
+	@Column(nullable = false)
+	@NotNull(message = "O horário final é obrigatório.")
 	private LocalTime horarioFinal;
+	@Column(nullable = false)
+	@NotNull(message = "A data inicial é obrigatória.")
 	private LocalDate dataInicio;
+	@Column(nullable = false)
+	@NotNull(message = "A data final é obrigatória.")
 	private LocalDate dataFim;
+	@Column(nullable = false)
+	@NotBlank(message = "A finalidade é obrigatória.")
 	private String finalidade;
 	
 	@Enumerated(EnumType.STRING)
@@ -104,16 +117,18 @@ public class Agendamento {
 	
 	
 // Relacionamento agendamento-pessoa
+	@NotNull(message = "O solicitante é obrigatório.")
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "solicitante_id", nullable = false)
 	private Pessoa solicitante;
 	
 	
 // Relacionamento agendamento-sala	
+	@NotNull(message = "A sala é obrigatória.")
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "sala_id", nullable = false)
 	private Sala sala;
-
+	
 	
 // Relacionamento servidor-aprovador
 	@ManyToOne
@@ -147,6 +162,49 @@ public void setAprovador(Servidor aprovador) {
 
 // Construtor
 public Agendamento() {
+}
+
+public Agendamento(LocalDate dataInicio,
+        LocalDate dataFim,
+        LocalTime horarioInicial,
+        LocalTime horarioFinal,
+        String finalidade,
+        Frequencia frequencia,
+        Pessoa solicitante,
+        Sala sala) {
+
+this.dataInicio = dataInicio;
+this.dataFim = dataFim;
+this.horarioInicial = horarioInicial;
+this.horarioFinal = horarioFinal;
+this.finalidade = finalidade;
+this.frequencia = frequencia;
+this.status = StatusAgendamento.SOLICITADO;
+this.solicitante = solicitante;
+this.sala = sala;
+}
+
+
+@Override
+public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof Agendamento)) return false;
+    Agendamento that = (Agendamento) o;
+    return Objects.equals(id, that.id);
+}
+
+@Override
+public int hashCode() {
+    return Objects.hash(id);
+}
+
+@Override
+public String toString() {
+    return "Agendamento{" +
+            "id=" + id +
+            ", dataInicio=" + dataInicio +
+            ", horarioInicial=" + horarioInicial +
+            ", sala=" + (sala != null ? sala.getNomeSala() : "null");
 }
 
 }

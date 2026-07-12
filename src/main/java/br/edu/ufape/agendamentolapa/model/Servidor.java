@@ -48,4 +48,10 @@ public class Servidor extends Pessoa {
     	PROFESSOR,
     	TECNICO;
     }
+    
+    @Override
+    public String toString() {
+        return getNome();
+    }
+    
 }
