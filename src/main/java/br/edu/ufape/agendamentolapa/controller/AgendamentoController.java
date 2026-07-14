@@ -1,8 +1,12 @@
 package br.edu.ufape.agendamentolapa.controller;
 
 import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import br.edu.ufape.agendamentolapa.dto.AgendamentoDTO;
+import br.edu.ufape.agendamentolapa.mapper.AgendamentoMapper;
 import br.edu.ufape.agendamentolapa.model.Agendamento;
 import br.edu.ufape.agendamentolapa.service.AgendamentoService;
 import jakarta.validation.Valid;
@@ -17,32 +21,40 @@ public class AgendamentoController {
         this.service = service;
     }
 
-    // Listar todos
+    // Listar
     @GetMapping
-    public List<Agendamento> listar() {
+    public List<AgendamentoDTO> listar() {
         return service.listar();
     }
 
     // Buscar por id
     @GetMapping("/{id}")
-    public Agendamento buscar(@PathVariable Long id) {
+    public AgendamentoDTO buscar(@PathVariable Long id) {
         return service.buscarPorId(id);
     }
 
     // Criar
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Agendamento salvar(@Valid @RequestBody Agendamento agendamento) {
-        return service.salvar(agendamento);
+    public AgendamentoDTO salvar(
+            @Valid @RequestBody AgendamentoDTO dto) {
+
+        Agendamento agendamento = service.salvar(dto);
+
+        return AgendamentoMapper.toDTO(agendamento);
     }
 
     // Atualizar
     @PutMapping("/{id}")
-    public Agendamento atualizar(@PathVariable Long id,
-                                 @Valid @RequestBody Agendamento agendamento) {
+    public AgendamentoDTO atualizar(
+            @PathVariable Long id,
+            @Valid @RequestBody AgendamentoDTO dto) {
 
-        agendamento.setId(id);
-        return service.salvar(agendamento);
+        dto.setId(id);
+
+        Agendamento agendamento = service.salvar(dto);
+
+        return AgendamentoMapper.toDTO(agendamento);
     }
 
     // Excluir

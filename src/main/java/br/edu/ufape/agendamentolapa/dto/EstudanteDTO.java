@@ -20,7 +20,7 @@ public class EstudanteDTO extends PessoaDTO {
                         String curso,
                         String matricula) {
 
-        super();
+    	super(nome, email, cpf, telefone);
 
         this.curso = curso;
         this.matricula = matricula;

@@ -4,11 +4,13 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import br.edu.ufape.agendamentolapa.model.Agendamento.Frequencia;
-
+import br.edu.ufape.agendamentolapa.model.Agendamento.StatusAgendamento;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class AgendamentoDTO {
+
+    private Long id;
 
     @NotNull(message = "A data inicial é obrigatória.")
     private LocalDate dataInicio;
@@ -28,16 +30,28 @@ public class AgendamentoDTO {
     @NotNull(message = "A frequência é obrigatória.")
     private Frequencia frequencia;
 
+    private StatusAgendamento status;
+
     @NotNull(message = "O solicitante é obrigatório.")
     private Long solicitanteId;
 
     @NotNull(message = "A sala é obrigatória.")
     private Long salaId;
 
-    // Opcional. Será preenchido apenas quando um servidor aprovar.
+    // Opcional: será preenchido quando um servidor aprovar o agendamento
     private Long aprovadorId;
 
     public AgendamentoDTO() {
+    }
+
+    // Getters e Setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public LocalDate getDataInicio() {
@@ -86,6 +100,14 @@ public class AgendamentoDTO {
 
     public void setFrequencia(Frequencia frequencia) {
         this.frequencia = frequencia;
+    }
+
+    public StatusAgendamento getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusAgendamento status) {
+        this.status = status;
     }
 
     public Long getSolicitanteId() {

@@ -3,8 +3,12 @@ package br.edu.ufape.agendamentolapa.controller;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import br.edu.ufape.agendamentolapa.dto.SalaDTO;
+import br.edu.ufape.agendamentolapa.mapper.SalaMapper;
 import br.edu.ufape.agendamentolapa.model.Sala;
 import br.edu.ufape.agendamentolapa.service.SalaService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/salas")
@@ -16,38 +20,48 @@ public class SalaController {
         this.service = service;
     }
 
-    // Listar todas
     @GetMapping
-    public List<Sala> listar() {
+    public List<SalaDTO> listar() {
         return service.listar();
     }
 
-    // Buscar por id
     @GetMapping("/{id}")
-    public Sala buscar(@PathVariable Long id) {
-        return service.buscarPorId(id);
+    public SalaDTO buscar(@PathVariable Long id) {
+
+        return SalaMapper.toDTO(
+                service.buscarPorId(id));
     }
 
-    // Salvar
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Sala salvar(@RequestBody Sala sala) {
-        return service.salvar(sala);
+    public SalaDTO salvar(
+            @Valid @RequestBody SalaDTO dto) {
+
+        Sala sala = SalaMapper.toEntity(dto);
+
+        sala = service.salvar(sala);
+
+        return SalaMapper.toDTO(sala);
     }
 
-    // Atualizar
     @PutMapping("/{id}")
-    public Sala atualizar(@PathVariable Long id,
-                          @RequestBody Sala sala) {
+    public SalaDTO atualizar(
+            @PathVariable Long id,
+            @Valid @RequestBody SalaDTO dto) {
+
+        Sala sala = SalaMapper.toEntity(dto);
 
         sala.setId(id);
-        return service.salvar(sala);
+
+        sala = service.salvar(sala);
+
+        return SalaMapper.toDTO(sala);
     }
 
-    // Excluir
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void excluir(@PathVariable Long id) {
         service.excluir(id);
     }
 }
+

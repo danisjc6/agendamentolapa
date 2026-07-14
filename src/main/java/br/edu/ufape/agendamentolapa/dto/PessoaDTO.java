@@ -7,21 +7,45 @@ public class PessoaDTO {
 
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "O nome é obrigatório.")
     private String nome;
 
-    @Email
-    @NotBlank
+    @Email(message = "E-mail inválido.")
+    @NotBlank(message = "O e-mail é obrigatório.")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "O CPF é obrigatório.")
     private String cpf;
 
-    @NotBlank
+    @NotBlank(message = "O telefone é obrigatório.")
     private String telefone;
 
+    // Construtor vazio
     public PessoaDTO() {
     }
+
+    // Construtor sem id
+    public PessoaDTO(String nome, String email,
+                     String cpf, String telefone) {
+
+        this.nome = nome;
+        this.email = email;
+        this.cpf = cpf;
+        this.telefone = telefone;
+    }
+
+    // Construtor com id
+    public PessoaDTO(Long id, String nome, String email,
+                     String cpf, String telefone) {
+
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.cpf = cpf;
+        this.telefone = telefone;
+    }
+
+    // Getters e Setters
 
     public Long getId() {
         return id;

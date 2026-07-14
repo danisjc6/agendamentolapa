@@ -1,7 +1,11 @@
 package br.edu.ufape.agendamentolapa.service;
 
 import java.util.List;
+
 import org.springframework.stereotype.Service;
+
+import br.edu.ufape.agendamentolapa.dto.SalaDTO;
+import br.edu.ufape.agendamentolapa.mapper.SalaMapper;
 import br.edu.ufape.agendamentolapa.model.Sala;
 import br.edu.ufape.agendamentolapa.repository.SalaRepository;
 
@@ -17,9 +21,13 @@ public class SalaService {
     public Sala salvar(Sala sala) {
         return repository.save(sala);
     }
+    
+    public List<SalaDTO> listar() {
 
-    public List<Sala> listar() {
-        return repository.findAll();
+        return repository.findAll()
+                .stream()
+                .map(SalaMapper::toDTO)
+                .toList();
     }
     
     public Sala buscarPorId(Long id) {

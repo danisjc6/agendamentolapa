@@ -3,16 +3,35 @@ package br.edu.ufape.agendamentolapa.mapper;
 import br.edu.ufape.agendamentolapa.dto.EstudanteDTO;
 import br.edu.ufape.agendamentolapa.model.Estudante;
 
-public class EstudanteMapper extends PessoaMapper{
-	public Estudante toEntity(EstudanteDTO dto) {
+public class EstudanteMapper {
 
-	    Estudante estudante = new Estudante();
+    public static EstudanteDTO toDTO(Estudante estudante) {
 
-	    super.toEntity(dto, estudante);
+        if (estudante == null)
+            return null;
 
-	    estudante.setCurso(dto.getCurso());
-	    estudante.setMatricula(dto.getMatricula());
+        EstudanteDTO dto = new EstudanteDTO();
 
-	    return estudante;
-	}
+        PessoaMapper.preencherPessoaDTO(estudante, dto);
+
+        dto.setCurso(estudante.getCurso());
+        dto.setMatricula(estudante.getMatricula());
+
+        return dto;
+    }
+
+    public static Estudante toEntity(EstudanteDTO dto) {
+
+        if (dto == null)
+            return null;
+
+        Estudante estudante = new Estudante();
+
+        PessoaMapper.preencherPessoa(dto, estudante);
+
+        estudante.setCurso(dto.getCurso());
+        estudante.setMatricula(dto.getMatricula());
+
+        return estudante;
+    }
 }

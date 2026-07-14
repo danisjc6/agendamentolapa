@@ -4,15 +4,37 @@ import br.edu.ufape.agendamentolapa.dto.SalaDTO;
 import br.edu.ufape.agendamentolapa.model.Sala;
 
 public class SalaMapper {
-	public Sala toEntity(SalaDTO dto) {
 
-	    Sala sala = new Sala();
+    public static SalaDTO toDTO(Sala sala) {
 
-	    sala.setNomeSala(dto.getNomeSala());
-	    sala.setCapacidade(dto.getCapacidade());
-	    sala.setTipo(dto.getTipo());
+        if (sala == null) {
+            return null;
+        }
 
-	    return sala;
-	}
+        SalaDTO dto = new SalaDTO();
+
+        dto.setId(sala.getId());
+        dto.setNomeSala(sala.getNomeSala());
+        dto.setCapacidade(sala.getCapacidade());
+        dto.setTipo(sala.getTipo());
+
+        return dto;
+    }
+
+    public static Sala toEntity(SalaDTO dto) {
+
+        if (dto == null) {
+            return null;
+        }
+
+        Sala sala = new Sala();
+
+        sala.setId(dto.getId());
+        sala.setNomeSala(dto.getNomeSala());
+        sala.setCapacidade(dto.getCapacidade());
+        sala.setTipo(dto.getTipo());
+
+        return sala;
+    }
 }
 
