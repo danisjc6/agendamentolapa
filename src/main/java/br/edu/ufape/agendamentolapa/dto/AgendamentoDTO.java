@@ -133,4 +133,30 @@ public class AgendamentoDTO {
     public void setAprovadorId(Long aprovadorId) {
         this.aprovadorId = aprovadorId;
     }
+    
+    public AgendamentoDTO(Long id,
+            LocalDate dataInicio,
+            LocalDate dataFim,
+            LocalTime horarioInicial,
+            LocalTime horarioFinal,
+            String finalidade,
+            Frequencia frequencia,
+            StatusAgendamento status,
+            Long solicitanteId,
+            Long salaId,
+            Long aprovadorId) {
+
+this.id = id;
+this.dataInicio = dataInicio;
+this.dataFim = dataFim;
+this.horarioInicial = horarioInicial;
+this.horarioFinal = horarioFinal;
+this.finalidade = finalidade;
+this.frequencia = frequencia;
+this.status = status;
+this.solicitanteId = solicitanteId;
+this.salaId = salaId;
+this.aprovadorId = aprovadorId;
+}
+    
 }
