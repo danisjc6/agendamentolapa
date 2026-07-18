@@ -1,10 +1,12 @@
 package br.edu.ufape.agendamentolapa.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import br.edu.ufape.agendamentolapa.dto.ServidorDTO;
+import br.edu.ufape.agendamentolapa.exception.EntityNotFoundException;
+import br.edu.ufape.agendamentolapa.mapper.ServidorMapper;
 import br.edu.ufape.agendamentolapa.model.Servidor;
 import br.edu.ufape.agendamentolapa.repository.ServidorRepository;
 
@@ -21,15 +23,20 @@ public class ServidorService {
         return repository.save(servidor);
     }
 
-    public List<Servidor> listar() {
-        return repository.findAll();
+    public List<ServidorDTO> listar() {
+        return repository.findAll()
+                .stream()
+                .map(ServidorMapper::toDTO)
+                .toList();
     }
-    
-    public Optional<Servidor> buscarPorId(Long id) {
-		  return repository.findById(id);
-	}
-    
+
+    public Servidor buscarPorId(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Servidor não encontrado."));
+    }
+
     public void excluir(Long id) {
-	    repository.deleteById(id);
-	}
+        repository.deleteById(id);
+    }
 }

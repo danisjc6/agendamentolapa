@@ -1,12 +1,14 @@
 package br.edu.ufape.agendamentolapa.controller;
 
-
-import java.util.List;
-import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
+import br.edu.ufape.agendamentolapa.dto.EstudanteDTO;
+import br.edu.ufape.agendamentolapa.mapper.EstudanteMapper;
 import br.edu.ufape.agendamentolapa.model.Estudante;
 import br.edu.ufape.agendamentolapa.service.EstudanteService;
+import jakarta.validation.Valid;
 
 	@RestController
 	@RequestMapping("/estudantes")
@@ -20,30 +22,42 @@ import br.edu.ufape.agendamentolapa.service.EstudanteService;
 
 	    // Listar todas
 	    @GetMapping
-	    public List<Estudante> listar() {
+	    public List<EstudanteDTO> listar() {
 	        return service.listar();
 	    }
 
 	    // Buscar por id
 	    @GetMapping("/{id}")
-	    public Optional<Estudante> buscar(@PathVariable Long id) {
-	        return service.buscarPorId(id);
+	    public EstudanteDTO buscar(@PathVariable Long id) {
+	        return EstudanteMapper.toDTO(service.buscarPorId(id));
 	    }
 
 	    // Salvar
 	    @PostMapping
 	    @ResponseStatus(HttpStatus.CREATED)
-	    public Estudante salvar(@RequestBody Estudante sala) {
-	        return service.salvar(sala);
+	    public EstudanteDTO salvar(
+	            @Valid @RequestBody EstudanteDTO dto) {
+
+	        Estudante estudante = EstudanteMapper.toEntity(dto);
+
+	        estudante = service.salvar(estudante);
+
+	        return EstudanteMapper.toDTO(estudante);
 	    }
 
 	    // Atualizar
 	    @PutMapping("/{id}")
-	    public Estudante atualizar(@PathVariable Long id,
-	                          @RequestBody Estudante sala) {
+	    public EstudanteDTO atualizar(
+	            @PathVariable Long id,
+	            @Valid @RequestBody EstudanteDTO dto) {
 
-	        sala.setId(id);
-	        return service.salvar(sala);
+	        Estudante estudante = EstudanteMapper.toEntity(dto);
+
+	        estudante.setId(id);
+
+	        estudante = service.salvar(estudante);
+
+	        return EstudanteMapper.toDTO(estudante);
 	    }
 
 	    // Excluir

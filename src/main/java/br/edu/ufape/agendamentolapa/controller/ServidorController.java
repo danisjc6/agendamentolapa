@@ -1,56 +1,66 @@
 package br.edu.ufape.agendamentolapa.controller;
 
-
 import java.util.List;
-import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import br.edu.ufape.agendamentolapa.dto.ServidorDTO;
+import br.edu.ufape.agendamentolapa.mapper.ServidorMapper;
 import br.edu.ufape.agendamentolapa.model.Servidor;
 import br.edu.ufape.agendamentolapa.service.ServidorService;
+import jakarta.validation.Valid;
 
-	@RestController
-	@RequestMapping("/servidores")
-	public class ServidorController {
-		private final ServidorService service;
+@RestController
+@RequestMapping("/servidores")
+public class ServidorController {
 
-	    public ServidorController(ServidorService service) {
-	        this.service = service;
-	    }
+    private final ServidorService service;
 
-	    // Listar todas
-	    @GetMapping
-	    public List<Servidor> listar() {
-	        return service.listar();
-	    }
+    public ServidorController(ServidorService service) {
+        this.service = service;
+    }
 
-	    // Buscar por id
-	    @GetMapping("/{id}")
-	    public Optional<Servidor> buscar(@PathVariable Long id) {
-	        return service.buscarPorId(id);
-	    }
+    @GetMapping
+    public List<ServidorDTO> listar() {
+        return service.listar();
+    }
 
-	    // Salvar
-	    @PostMapping
-	    @ResponseStatus(HttpStatus.CREATED)
-	    public Servidor salvar(@RequestBody Servidor sala) {
-	        return service.salvar(sala);
-	    }
+    @GetMapping("/{id}")
+    public ServidorDTO buscar(@PathVariable Long id) {
+        return ServidorMapper.toDTO(
+                service.buscarPorId(id));
+    }
 
-	    // Atualizar
-	    @PutMapping("/{id}")
-	    public Servidor atualizar(@PathVariable Long id,
-	                          @RequestBody Servidor sala) {
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ServidorDTO salvar(
+            @Valid @RequestBody ServidorDTO dto) {
 
-	        sala.setId(id);
-	        return service.salvar(sala);
-	    }
+        Servidor servidor = ServidorMapper.toEntity(dto);
 
-	    // Excluir
-	    @DeleteMapping("/{id}")
-	    @ResponseStatus(HttpStatus.NO_CONTENT)
-	    public void excluir(@PathVariable Long id) {
-	        service.excluir(id);
-	    }
-	}
+        servidor = service.salvar(servidor);
 
+        return ServidorMapper.toDTO(servidor);
+    }
 
+    @PutMapping("/{id}")
+    public ServidorDTO atualizar(
+            @PathVariable Long id,
+            @Valid @RequestBody ServidorDTO dto) {
+
+        Servidor servidor = ServidorMapper.toEntity(dto);
+
+        servidor.setId(id);
+
+        servidor = service.salvar(servidor);
+
+        return ServidorMapper.toDTO(servidor);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void excluir(@PathVariable Long id) {
+        service.excluir(id);
+    }
+}

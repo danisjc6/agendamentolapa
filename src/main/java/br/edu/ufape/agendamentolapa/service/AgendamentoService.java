@@ -1,11 +1,10 @@
 package br.edu.ufape.agendamentolapa.service;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 
 import br.edu.ufape.agendamentolapa.dto.AgendamentoDTO;
+import br.edu.ufape.agendamentolapa.exception.EntityNotFoundException;
 import br.edu.ufape.agendamentolapa.mapper.AgendamentoMapper;
 import br.edu.ufape.agendamentolapa.model.Agendamento;
 import br.edu.ufape.agendamentolapa.model.Pessoa;
@@ -15,7 +14,6 @@ import br.edu.ufape.agendamentolapa.repository.AgendamentoRepository;
 import br.edu.ufape.agendamentolapa.repository.PessoaRepository;
 import br.edu.ufape.agendamentolapa.repository.SalaRepository;
 import br.edu.ufape.agendamentolapa.repository.ServidorRepository;
-
 @Service
 public class AgendamentoService {
 	
@@ -41,11 +39,11 @@ public Agendamento salvar(AgendamentoDTO dto) {
 
     Pessoa solicitante = pessoaRepository.findById(dto.getSolicitanteId())
             .orElseThrow(() ->
-                    new RuntimeException("Solicitante não encontrado."));
+            	new EntityNotFoundException("Solicitante não encontrado."));
 
     Sala sala = salaRepository.findById(dto.getSalaId())
             .orElseThrow(() ->
-                    new RuntimeException("Sala não encontrada."));
+            	new EntityNotFoundException("Sala não encontrada."));
 
     Servidor aprovador = null;
 
@@ -53,7 +51,7 @@ public Agendamento salvar(AgendamentoDTO dto) {
 
         aprovador = servidorRepository.findById(dto.getAprovadorId())
                 .orElseThrow(() ->
-                        new RuntimeException("Aprovador não encontrado."));
+                	new EntityNotFoundException("Aprovador não encontrado."));
     }
 
     Agendamento agendamento = AgendamentoMapper.toEntity(
@@ -79,7 +77,7 @@ public AgendamentoDTO buscarPorId(Long id) {
 
     Agendamento agendamento = repository.findById(id)
             .orElseThrow(() ->
-                    new RuntimeException("Agendamento não encontrado."));
+                 new EntityNotFoundException("Agendamento não encontrado."));
 
     return AgendamentoMapper.toDTO(agendamento);
 }

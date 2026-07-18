@@ -63,6 +63,8 @@ public class AgendamentoMapper {
 
         if (dto.getStatus() != null) {
             agendamento.setStatus(dto.getStatus());
+        } else {
+            agendamento.setStatus(Agendamento.StatusAgendamento.SOLICITADO);
         }
 
         agendamento.setSolicitante(solicitante);
@@ -70,5 +72,6 @@ public class AgendamentoMapper {
         agendamento.setAprovador(aprovador);
 
         return agendamento;
-    }
+    	}
+    
 }
